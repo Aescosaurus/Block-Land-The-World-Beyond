@@ -33,6 +33,7 @@ class Block
 			
 			return maxNum;
 		}
+		
 		var RandColor = function()
 		{
 			const hexChars =
@@ -52,25 +53,47 @@ class Block
 			}
 			while( HexCount( finalColor ) < 35 );
 			
-			console.log( HexCount( finalColor ) >= 35 );
+			// console.log( HexCount( finalColor ) >= 35 );
 			
 			return finalColor;
 		}
 		//
 		var x = x_in;
 		var y = y_in;
+		var origX = x;
+		var origY = y;
 		const WIDTH = 30;
 		const HEIGHT = 30;
 		const c = RandColor();
+		
+		var broken = false;
 		// 
 		this.Update = function()
 		{
-			
+			if( broken )
+				this.Shake( 3,3 );
 		}
 		
 		this.Draw = function()
 		{
 			gfx.Rect( x,y,WIDTH,HEIGHT,c );
+		}
+		
+		this.Break = function()
+		{
+			broken = true;
+		}
+
+		this.Shake = function( xShake = 0,yShake = 0 )
+		{
+			x = origX;
+			y = origY;
+			
+			origX = x;
+			origY = y;
+			
+			x += xShake * calc.Random( -1,1 );
+			y += yShake * calc.Random( -1,1 );
 		}
 		
 		this.Pos = function()

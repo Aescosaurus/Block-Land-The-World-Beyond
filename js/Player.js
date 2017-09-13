@@ -14,15 +14,19 @@ class Player
 		var grav = 0;
 		const GRAV_ACC = 0.7;
 		var jumping = false;
+		var canJump = false;
 		const JUMP_POW = 15;
 		
 		// 
 		this.Update = function()
 		{
-			if( kbd.KeyDown( 87 ) || kbd.KeyDown( 32 ) )
+			if( kbd.KeyDown( 32 ) && ( ( jumping ) || ( !jumping && canJump ) ) )
+			{
 				jumping = true;
+				canJump = false;
+			}
 			else if( jumping )
-				this.Land();
+				this.Land( -7 );
 			
 			if( kbd.KeyDown( 65 ) && vx > -MAX_SPEED )
 				vx -= SPEED;
@@ -50,10 +54,15 @@ class Player
 			gfx.Rect( x,y,WIDTH,HEIGHT,"#FA0" );
 		}
 		
-		this.Land = function()
+		this.Land = function( newGrav = 0 )
 		{
 			jumping = false;
-			grav = 0;
+			grav = newGrav;
+		}
+		
+		this.CanJump = function( cJump )
+		{
+			canJump = cJump;
 		}
 		
 		this.MovePos = function( xMove,yMove )

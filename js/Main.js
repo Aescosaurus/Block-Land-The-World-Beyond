@@ -69,6 +69,9 @@ function Update()
 		{
 			pl.MovePos( 0,-0.3 );
 			pl.Land();
+			pl.CanJump( true );
+			
+			b.Break();
 		}
 	}
 }
