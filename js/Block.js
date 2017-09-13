@@ -67,11 +67,26 @@ class Block
 		const c = RandColor();
 		
 		var broken = false;
+		var fallTime = 0;
+		const FALL_MAX = 100;
+		
+		var grav = 0;
+		const GRAV_ACC = 12;
 		// 
 		this.Update = function()
 		{
 			if( broken )
+			{
 				this.Shake( 3,3 );
+				
+				if( fallTime > FALL_MAX )
+				{
+					grav += GRAV_ACC;
+					y += grav;
+				}
+				else
+					++fallTime;
+			}
 		}
 		
 		this.Draw = function()
