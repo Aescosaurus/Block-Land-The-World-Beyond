@@ -17,6 +17,7 @@ class Player
 		var canJump = false;
 		const JUMP_POW = 15;
 		
+		const HIT_TEST_OFFSET = WIDTH / 5;
 		// 
 		this.Update = function()
 		{
@@ -79,6 +80,32 @@ class Player
 				w: WIDTH,
 				h: HEIGHT
 			}
+		}
+		
+		this.HitTestTop( oX,oY,oW,oH )
+		{
+			return ( x + HIT_TEST_OFFSET / 2 < oX + oW &&
+					 x - HIT_TEST_OFFSET / 2 + WIDTH > oX &&
+				     y < oY + oH &&
+					 y + HIT_TEST_OFSET > oY );
+		}
+		
+		this.HitTestBot( oX,oY,oW,oH )
+		{
+			return ( x < oX + oW && x + WIDTH > oX &&
+				     y < oY + oH && y + HEIGHT > oY );
+		}
+		
+		this.HitTestLeft( oX,oY,oW,oH )
+		{
+			return ( x < oX + oW && x + WIDTH > oX &&
+				     y < oY + oH && y + HEIGHT > oY );
+		}
+		
+		this.HitTestRight( oX,oY,oW,oH )
+		{
+			return ( x < oX + oW && x + WIDTH > oX &&
+				     y < oY + oH && y + HEIGHT > oY );
 		}
 	}
 }
