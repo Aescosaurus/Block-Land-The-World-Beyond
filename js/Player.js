@@ -82,7 +82,7 @@ class Player
 			}
 		}
 		
-		this.HitTestTop( oX,oY,oW,oH )
+		this.HitTestTop = function( oX,oY,oW,oH )
 		{
 			return ( x + HIT_TEST_OFFSET / 2 < oX + oW &&
 					 x - HIT_TEST_OFFSET / 2 + WIDTH > oX &&
@@ -90,19 +90,20 @@ class Player
 					 y + HIT_TEST_OFSET > oY );
 		}
 		
-		this.HitTestBot( oX,oY,oW,oH )
+		this.HitTestBot = function( oX,oY,oW,oH )
+		{
+			return ( x + HIT_TEST_OFFSET / 2 < oX + oW &&
+					 x - HIT_TEST_OFFSET / 2 + WIDTH > oX &&
+				     y < oY + oH && y + HEIGHT > oY );
+		}
+		
+		this.HitTestLeft = function( oX,oY,oW,oH )
 		{
 			return ( x < oX + oW && x + WIDTH > oX &&
 				     y < oY + oH && y + HEIGHT > oY );
 		}
 		
-		this.HitTestLeft( oX,oY,oW,oH )
-		{
-			return ( x < oX + oW && x + WIDTH > oX &&
-				     y < oY + oH && y + HEIGHT > oY );
-		}
-		
-		this.HitTestRight( oX,oY,oW,oH )
+		this.HitTestRight = function( oX,oY,oW,oH )
 		{
 			return ( x < oX + oW && x + WIDTH > oX &&
 				     y < oY + oH && y + HEIGHT > oY );
