@@ -83,10 +83,10 @@ function Update()
 			blocks[i].MovePos( -move,0 );
 	}
 	
-	if( blocks[blocks.length - 1].Pos().x < pl.Pos().x )
+	if( blocks[blocks.length - 1].Pos().x < gfx.SCREEN_WIDTH )
 	{
 		map.GenerateBlocks();
-		ReadBlocks();
+		ReadBlocks( gfx.SCREEN_WIDTH );
 	}
 }
 
@@ -100,18 +100,18 @@ function Draw()
 	pl.Draw();
 }
 
-var ReadBlocks = function()
+var ReadBlocks = function( offsetX = 0 )
 {
-	blocks = [];
+	// blocks = [];
 	
-	var c = 0;
+	var c = blocks.length; // 0;
 	
 	for( var i = 0; i < map.Dim().h; ++i )
 	{
 		for( var j = 0; j < map.Dim().w; ++j )
 		{
 			if( map.PosXY( j,i ) === 1 )
-				blocks[c++] = new Block( j * 30,i * 30 );
+				blocks[c++] = new Block( j * 30 + offsetX,i * 30 );
 		}
 	}
 	
