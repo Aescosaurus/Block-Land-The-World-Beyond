@@ -38,16 +38,8 @@ function Init()
 	
 	gfx.SetSmoothing( true ); // Set false for pixel art.
 	
-	var c = 0;
-	
-	for( var i = 0; i < map.Dim().h; ++i )
-	{
-		for( var j = 0; j < map.Dim().w; ++j )
-		{
-			if( map.PosXY( j,i ) === 1 )
-				blocks[c++] = new Block( j * 30,i * 30 );
-		}
-	}
+	map.GenerateBlocks();
+	ReadBlocks();
 	
 	console.log( "JSJ Framework version " + version + " has loaded successfully!" );
 }
@@ -60,19 +52,41 @@ function Update()
 	for( var i in blocks )
 	{
 		var b = blocks[i]
-		b.Update();
 		
-		while( calc.HitTest( pl.Pos().x,pl.Pos().y,
-			              pl.Pos().w,pl.Pos().h,
-			              b.Pos().x,b.Pos().y,
-			              b.Pos().w,b.Pos().h ) )
+		if( b.Pos().y > gfx.SCREEN_HEIGHT || b.Pos().x < 0 )
+			blocks.splice( i,1 );
+		
+		if( b.Pos().x > 0 && b.Pos().x < gfx.SCREEN_WIDTH )
 		{
-			pl.MovePos( 0,-0.3 );
-			pl.Land();
-			pl.CanJump( true );
+			b.Update();
 			
-			b.Break();
+			while( calc.HitTest( pl.Pos().x,pl.Pos().y,
+							pl.Pos().w,pl.Pos().h,
+							b.Pos().x,b.Pos().y,
+							b.Pos().w,b.Pos().h ) )
+			{
+				pl.MovePos( 0,-0.3 );
+				pl.Land();
+				pl.CanJump( true );
+				
+				b.Break();
+			}
 		}
+	}
+	
+	while( pl.Pos().x > gfx.SCREEN_WIDTH / 2 )
+	{
+		const move = 0.3;
+		pl.MovePos( -move,0 );
+		
+		for( var i in blocks )
+			blocks[i].MovePos( -move,0 );
+	}
+	
+	if( blocks[blocks.length - 1].Pos().x < pl.Pos().x )
+	{
+		map.GenerateBlocks();
+		ReadBlocks();
 	}
 }
 
@@ -84,4 +98,22 @@ function Draw()
 		blocks[i].Draw();
 	
 	pl.Draw();
+}
+
+var ReadBlocks = function()
+{
+	blocks = [];
+	
+	var c = 0;
+	
+	for( var i = 0; i < map.Dim().h; ++i )
+	{
+		for( var j = 0; j < map.Dim().w; ++j )
+		{
+			if( map.PosXY( j,i ) === 1 )
+				blocks[c++] = new Block( j * 30,i * 30 );
+		}
+	}
+	
+	console.log( "More blocks were generated!" );
 }

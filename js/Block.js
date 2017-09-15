@@ -68,7 +68,7 @@ class Block
 		
 		var broken = false;
 		var fallTime = 0;
-		const FALL_MAX = 100;
+		const FALL_MAX = 7;
 		
 		var grav = 0;
 		const GRAV_ACC = 12;
@@ -94,8 +94,8 @@ class Block
 		
 		this.Draw = function()
 		{
-			// gfx.Rect( x,y,WIDTH,HEIGHT,c );
-			gfx.context.drawImage( texture,x,y,WIDTH,HEIGHT );
+			gfx.Rect( x,y,WIDTH,HEIGHT,c );
+			// gfx.context.drawImage( texture,x,y,WIDTH,HEIGHT );
 		}
 		
 		this.Break = function()
@@ -113,6 +113,15 @@ class Block
 			
 			x += xShake * calc.Random( -1,1 );
 			y += yShake * calc.Random( -1,1 );
+		}
+		
+		this.MovePos = function( xMove,yMove )
+		{
+			x += xMove;
+			y += yMove;
+			
+			origX += xMove;
+			origY += yMove;
 		}
 		
 		this.Pos = function()

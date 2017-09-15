@@ -48,6 +48,12 @@ class Player
 				if( grav > JUMP_POW )
 					this.Land();
 			}
+			
+			while( y < 0 )
+				++y;
+			
+			if( y > gfx.SCREEN_WIDTH )
+				location.reload();
 		}
 		
 		this.Draw = function()
