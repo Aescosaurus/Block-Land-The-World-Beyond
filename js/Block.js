@@ -72,6 +72,9 @@ class Block
 		
 		var grav = 0;
 		const GRAV_ACC = 12;
+		
+		const texture = new Image();
+		texture.src = "Images/Block1.png";
 		// 
 		this.Update = function()
 		{
@@ -91,7 +94,8 @@ class Block
 		
 		this.Draw = function()
 		{
-			gfx.Rect( x,y,WIDTH,HEIGHT,c );
+			// gfx.Rect( x,y,WIDTH,HEIGHT,c );
+			gfx.context.drawImage( texture,x,y,WIDTH,HEIGHT );
 		}
 		
 		this.Break = function()
