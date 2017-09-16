@@ -94,8 +94,8 @@ class Block
 		
 		this.Draw = function()
 		{
-			gfx.Rect( x,y,WIDTH,HEIGHT,c );
-			// gfx.context.drawImage( texture,x,y,WIDTH,HEIGHT );
+			// gfx.Rect( x,y,WIDTH,HEIGHT,c );
+			gfx.context.drawImage( texture,x,y,WIDTH,HEIGHT );
 		}
 		
 		this.Break = function()
