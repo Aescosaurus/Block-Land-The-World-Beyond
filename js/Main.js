@@ -59,17 +59,30 @@ function Update()
 		if( b.Pos().x > 0 && b.Pos().x < gfx.SCREEN_WIDTH )
 		{
 			b.Update();
+			/*
+			while( pl.HitTestRight( b.Pos().x,b.Pos().y,
+			                       b.Pos().w,b.Pos().h ) )
+				pl.MovePos( -0.3,0 );
 			
-			while( calc.HitTest( pl.Pos().x,pl.Pos().y,
-							pl.Pos().w,pl.Pos().h,
-							b.Pos().x,b.Pos().y,
-							b.Pos().w,b.Pos().h ) )
+			while( pl.HitTestLeft( b.Pos().x,b.Pos().y,
+			                       b.Pos().w,b.Pos().h ) )
+				pl.MovePos( 0.3,0 );
+			*/
+			while( pl.HitTestBot( b.Pos().x,b.Pos().y,
+			                      b.Pos().w,b.Pos().h ) )
 			{
 				pl.MovePos( 0,-0.3 );
 				pl.Land();
 				pl.CanJump( true );
 				
 				b.Break();
+			}
+			
+			while( pl.HitTestTop( b.Pos().x,b.Pos().y,
+			                      b.Pos().w,b.Pos().h ) )
+			{
+				pl.Land();
+				pl.MovePos( 0,0.3 );
 			}
 		}
 	}
@@ -115,5 +128,5 @@ var ReadBlocks = function( offsetX = 0 )
 		}
 	}
 	
-	console.log( "More blocks were generated!" );
+	console.log( "Blocks were generated!" );
 }

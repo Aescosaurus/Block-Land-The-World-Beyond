@@ -90,29 +90,34 @@ class Player
 		
 		this.HitTestTop = function( oX,oY,oW,oH )
 		{
-			return ( x + HIT_TEST_OFFSET / 2 < oX + oW &&
-					 x - HIT_TEST_OFFSET / 2 + WIDTH > oX &&
-				     y < oY + oH &&
-					 y + HIT_TEST_OFSET > oY );
+			return( x + HIT_TEST_OFFSET / 2 < oX + oW &&
+			        x - HIT_TEST_OFFSET / 2 + WIDTH > oX &&
+			        y < oY + oH &&
+			        y + HIT_TEST_OFFSET > oY );
 		}
 		
 		this.HitTestBot = function( oX,oY,oW,oH )
 		{
-			return ( x + HIT_TEST_OFFSET / 2 < oX + oW &&
-					 x - HIT_TEST_OFFSET / 2 + WIDTH > oX &&
-				     y < oY + oH && y + HEIGHT > oY );
+			return( x + HIT_TEST_OFFSET / 2 < oX + oW &&
+			        x - HIT_TEST_OFFSET / 2 + WIDTH > oX &&
+			        y - HIT_TEST_OFFSET + HEIGHT < oY + oH &&
+			        y + HEIGHT > oY );
 		}
 		
 		this.HitTestLeft = function( oX,oY,oW,oH )
 		{
-			return ( x < oX + oW && x + WIDTH > oX &&
-				     y < oY + oH && y + HEIGHT > oY );
+			return( x < oX + oW &&
+			        x + HIT_TEST_OFFSET > oX &&
+			        y + HIT_TEST_OFFSET < oY + oH &&
+			        y - HIT_TEST_OFFSET + HEIGHT > oY );
 		}
 		
 		this.HitTestRight = function( oX,oY,oW,oH )
 		{
-			return ( x < oX + oW && x + WIDTH > oX &&
-				     y < oY + oH && y + HEIGHT > oY );
+			return( x + WIDTH - HIT_TEST_OFFSET < oX + oW &&
+			        x + WIDTH > oX &&
+			        y + HIT_TEST_OFFSET < oY + oH &&
+			        y - HIT_TEST_OFFSET + HEIGHT > oY );
 		}
 	}
 }
