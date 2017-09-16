@@ -123,10 +123,10 @@ var ReadBlocks = function( offsetX = 0 )
 	{
 		for( var j = 0; j < map.Dim().w; ++j )
 		{
-			if( map.PosXY( j,i ) === 1 )
-				blocks[c++] = new Block( j * 30 + offsetX,i * 30 );
+			if( map.PosXY( j,i ) > 0 )
+				blocks[c++] = new Block( j * 30 + offsetX,i * 30,map.PosXY( j,i ) );
 		}
 	}
 	
-	console.log( "Blocks were generated!" );
+	console.log( "Blocks were generated! Total: " + blocks.length );
 }

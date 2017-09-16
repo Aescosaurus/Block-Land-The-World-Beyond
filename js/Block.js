@@ -1,6 +1,6 @@
 class Block
 {
-	constructor( x_in,y_in )
+	constructor( x_in,y_in,type_in )
 	{
 		var HexCount = function( hexValue )
 		{
@@ -66,6 +66,8 @@ class Block
 		const HEIGHT = 30;
 		const c = RandColor();
 		
+		var type = type_in;
+		
 		var broken = false;
 		var fallTime = 0;
 		const FALL_MAX = 7;
@@ -74,7 +76,7 @@ class Block
 		const GRAV_ACC = 12;
 		
 		const texture = new Image();
-		texture.src = "Images/Block1.png";
+		texture.src = "Images/Block" + type + ".png";
 		// 
 		this.Update = function()
 		{
@@ -84,8 +86,16 @@ class Block
 				
 				if( fallTime > FALL_MAX )
 				{
-					grav += GRAV_ACC;
-					y += grav;
+					if( type === 0 )
+					{
+						grav += GRAV_ACC;
+						y += grav;
+					}
+					else if( type === 1 )
+					{
+						grav += GRAV_ACC;
+						y -= grav;
+					}
 				}
 				else
 					++fallTime;

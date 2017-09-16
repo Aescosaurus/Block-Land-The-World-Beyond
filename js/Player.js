@@ -52,8 +52,8 @@ class Player
 			while( y < 0 )
 				++y;
 			
-			if( y > gfx.SCREEN_WIDTH )
-				location.reload();
+			// if( y > gfx.SCREEN_WIDTH )
+			// 	location.reload();
 		}
 		
 		this.Draw = function()

@@ -43,7 +43,7 @@ class Map
 						for( var k = 0; k < calc.Random( 3,7 ); ++k )
 						{
 							if( i * WIDTH + j > k )
-								map[i * WIDTH + j - k] = 1;
+								map[i * WIDTH + j - k] = calc.Random( 0,6 );
 						}
 					}
 					else
