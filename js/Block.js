@@ -82,23 +82,26 @@ class Block
 		{
 			if( broken )
 			{
-				this.Shake( 3,3 );
-				
-				if( fallTime > FALL_MAX )
+				if( type !== 4 && type !== 5 && type !== 6 )
 				{
-					if( type === 0 )
+					this.Shake( 3,3 );
+					
+					if( fallTime > FALL_MAX )
 					{
-						grav += GRAV_ACC;
-						y += grav;
+						if( type === 1 )
+						{
+							grav += GRAV_ACC;
+							y -= grav;
+						}
+						else
+						{
+							grav += GRAV_ACC;
+							y += grav;
+						}
 					}
-					else if( type === 1 )
-					{
-						grav += GRAV_ACC;
-						y -= grav;
-					}
+					else
+						++fallTime;
 				}
-				else
-					++fallTime;
 			}
 		}
 		

@@ -16,8 +16,6 @@ class Player
 		var jumping = false;
 		var canJump = false;
 		const JUMP_POW = 15;
-		
-		const HIT_TEST_OFFSET = WIDTH / 5;
 		// 
 		this.Update = function()
 		{
@@ -88,36 +86,42 @@ class Player
 			}
 		}
 		
-		this.HitTestTop = function( oX,oY,oW,oH )
+		this.HitTest = function( hitDir,objX,objY,objWidth,objHeight )
 		{
-			return( x + HIT_TEST_OFFSET / 2 < oX + oW &&
-			        x - HIT_TEST_OFFSET / 2 + WIDTH > oX &&
-			        y < oY + oH &&
-			        y + HIT_TEST_OFFSET > oY );
-		}
-		
-		this.HitTestBot = function( oX,oY,oW,oH )
-		{
-			return( x + HIT_TEST_OFFSET / 2 < oX + oW &&
-			        x - HIT_TEST_OFFSET / 2 + WIDTH > oX &&
-			        y - HIT_TEST_OFFSET + HEIGHT < oY + oH &&
-			        y + HEIGHT > oY );
-		}
-		
-		this.HitTestLeft = function( oX,oY,oW,oH )
-		{
-			return( x < oX + oW &&
-			        x + HIT_TEST_OFFSET > oX &&
-			        y + HIT_TEST_OFFSET < oY + oH &&
-			        y - HIT_TEST_OFFSET + HEIGHT > oY );
-		}
-		
-		this.HitTestRight = function( oX,oY,oW,oH )
-		{
-			return( x + WIDTH - HIT_TEST_OFFSET < oX + oW &&
-			        x + WIDTH > oX &&
-			        y + HIT_TEST_OFFSET < oY + oH &&
-			        y - HIT_TEST_OFFSET + HEIGHT > oY );
+			const OFFSET = WIDTH / 4;
+			
+			if( hitDir === "Top" )
+			{
+				if( x + OFFSET < objX + objWidth && x + WIDTH - OFFSET > objX &&
+					y < objY + objHeight && y + OFFSET > objY )
+					return true;
+				else
+					return false;
+			}
+			else if( hitDir === "Bot" )
+			{
+				if( x + OFFSET < objX + objWidth && x + WIDTH - OFFSET > objX &&
+					y + HEIGHT - OFFSET < objY + objHeight && y + HEIGHT > objY )
+					return true;
+				else
+					return false;
+			}
+			else if( hitDir === "Left" )
+			{
+				if( x < objX + objWidth && x + OFFSET > objX &&
+					y + OFFSET < objY + objHeight && y + HEIGHT - OFFSET > objY )
+					return true;
+				else
+					return false;
+			}
+			else if( hitDir === "Right" )
+			{
+				if( x + WIDTH - OFFSET < objX + objWidth && x + WIDTH > objX &&
+					y + OFFSET < objY + objHeight && y + HEIGHT - OFFSET > objY )
+					return true;
+				else
+					return false;
+			}
 		}
 	}
 }

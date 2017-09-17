@@ -59,17 +59,9 @@ function Update()
 		if( b.Pos().x > 0 && b.Pos().x < gfx.SCREEN_WIDTH )
 		{
 			b.Update();
-			/*
-			while( pl.HitTestRight( b.Pos().x,b.Pos().y,
-			                       b.Pos().w,b.Pos().h ) )
-				pl.MovePos( -0.3,0 );
 			
-			while( pl.HitTestLeft( b.Pos().x,b.Pos().y,
-			                       b.Pos().w,b.Pos().h ) )
-				pl.MovePos( 0.3,0 );
-			*/
-			while( pl.HitTestBot( b.Pos().x,b.Pos().y,
-			                      b.Pos().w,b.Pos().h ) )
+			while( pl.HitTest( "Bot",b.Pos().x,b.Pos().y,
+			                         b.Pos().w,b.Pos().h ) )
 			{
 				pl.MovePos( 0,-0.3 );
 				pl.Land();
@@ -78,12 +70,20 @@ function Update()
 				b.Break();
 			}
 			
-			while( pl.HitTestTop( b.Pos().x,b.Pos().y,
-			                      b.Pos().w,b.Pos().h ) )
+			while( pl.HitTest( "Top",b.Pos().x,b.Pos().y,
+			                        b.Pos().w,b.Pos().h ) )
 			{
 				pl.Land();
 				pl.MovePos( 0,0.3 );
 			}
+			
+			while( pl.HitTest( "Left",b.Pos().x,b.Pos().y,
+			                          b.Pos().w,b.Pos().h ) )
+				pl.MovePos( 0.3,0 );
+			
+			while( pl.HitTest( "Right",b.Pos().x,b.Pos().y,
+			                           b.Pos().w,b.Pos().h ) )
+				pl.MovePos( -0.3,0 );
 		}
 	}
 	
