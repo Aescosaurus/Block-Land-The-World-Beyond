@@ -18,6 +18,7 @@ var ms = new Mouse();
 
 var pl = new Player();
 var map = new Map();
+var badGuy = new Enemy();
 
 window.onload = function()
 {
@@ -40,6 +41,8 @@ function Init()
 	
 	map.GenerateBlocks();
 	ReadBlocks();
+	
+	badGuy.SetRandPos();
 	
 	console.log( "JSJ Framework version " + version + " has loaded successfully!" );
 }
@@ -94,13 +97,17 @@ function Update()
 		
 		for( var i in blocks )
 			blocks[i].MovePos( -move,0 );
+		
+		badGuy.MovePos( -move,0 );
 	}
 	
 	if( blocks[blocks.length - 1].Pos().x < gfx.SCREEN_WIDTH )
 	{
 		map.GenerateBlocks();
-		ReadBlocks( gfx.SCREEN_WIDTH );
+		ReadBlocks( gfx.SCREEN_WIDTH + 100 );
 	}
+		
+	badGuy.Update();
 }
 
 function Draw()
@@ -109,6 +116,8 @@ function Draw()
 	// Draw things here.
 	for( var i in blocks )
 		blocks[i].Draw();
+	
+	badGuy.Draw();
 	
 	pl.Draw();
 }
