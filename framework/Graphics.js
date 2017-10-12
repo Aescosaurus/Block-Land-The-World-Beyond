@@ -5,7 +5,7 @@ class Graphics
 		this.canvas = document.getElementById( "gc" );
 		this.context = this.canvas.getContext( "2d" );
 		
-		this.SCREEN_WIDTH = this.canvas.width;
+		this.SCREEN_WIDTH  = this.canvas.width;
 		this.SCREEN_HEIGHT = this.canvas.height;
 		//
 		this.Circle = function( x,y,size,color )

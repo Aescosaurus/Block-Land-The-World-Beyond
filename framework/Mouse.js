@@ -20,6 +20,7 @@ class Mouse
 			{
 				const rect = canvas.getBoundingClientRect();
 				const root = document.documentElement;
+				
 				x = e.clientX - rect.left - root.scrollLeft;
 				y = e.clientY - rect.top - root.scrollTop;
 			} );
