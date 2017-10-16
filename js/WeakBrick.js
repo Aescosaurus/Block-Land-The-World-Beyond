@@ -17,6 +17,9 @@ class WeakBrick
 		var Y_ORIG = y;
 		
 		var willDraw = true;
+		
+		var image = new Image();
+		image.src = "Images/Block" + calc.Random( 4,6 ) + ".png";
 		// 
 		this.Update = function()
 		{
@@ -49,17 +52,20 @@ class WeakBrick
 		
 		this.Draw = function()
 		{
+			gfx.Rect( x * area.TileSize(),y * area.TileSize(),area.TileSize(),area.TileSize(),"#000" );
 			if( !falling )
 			{
-				gfx.Rect( x * area.TileSize(),y * area.TileSize(),area.TileSize(),area.TileSize(),c );
+				// gfx.Rect( x * area.TileSize(),y * area.TileSize(),area.TileSize(),area.TileSize(),c );
+				gfx.context.drawImage( image,x * area.TileSize(),y * area.TileSize(),area.TileSize(),area.TileSize() );
 			}
 			else
 			{
-				gfx.Rect( x * area.TileSize(),y * area.TileSize(),area.TileSize(),area.TileSize(),"#000" );
 				if( willDraw )
 				{
-					gfx.Rect( x * area.TileSize() + offset,y * area.TileSize() + offset,
-							  area.TileSize() - offset * 2,area.TileSize() - offset * 2,c );
+					// gfx.Rect( x * area.TileSize() + offset,y * area.TileSize() + offset,
+					// 		  area.TileSize() - offset * 2,area.TileSize() - offset * 2,c );
+					gfx.context.drawImage( image,x * area.TileSize() + offset,y * area.TileSize() + offset,
+					                       area.TileSize() - offset * 2,area.TileSize() - offset * 2 );
 				}
 			}
 		}

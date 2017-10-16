@@ -16,6 +16,9 @@ class Map
 		const TILE_SIZE = 50;
 		const WIDTH = gfx.SCREEN_WIDTH / TILE_SIZE;
 		const HEIGHT = gfx.SCREEN_HEIGHT / TILE_SIZE;
+		
+		var wall = new Image();
+		var images = [];
 		// 
 		this.Init = function()
 		{
@@ -34,6 +37,26 @@ class Map
 			}
 			
 			positions[pl.Pos().y * WIDTH + pl.Pos().x] = 2;
+			
+			wall.src = "Images/Block2.png";
+			for( var i = 0; i < 3; ++i )
+			{
+				images[i] = new Image();
+				var rngNum = 1;
+				// if( i === 0 )
+				// {
+				// 	rngNum = 1;
+				// }
+				// else if( i === 1 )
+				// {
+				// 	rngNum = 3;
+				// }
+				// else if( i === 2 )
+				// {
+				// 	rngNum = 8;
+				// }
+				images[i].src = "Images/Block" + rngNum + ".png";
+			}
 		}
 		
 		this.Update = function()
@@ -57,23 +80,31 @@ class Map
 					
 					var c = "#000";
 					
-					// Void tiles.
-					if( p === -3 )
-						c = "#F00";
-					else if( p === -2 )
-						c = "#E11";
-					else if( p === -1 )
-						c = "#D22";
-					
-					// Ground tiles.
-					if( p === 1 )
-						c = "#777";
-					else if( p === 2 )
-						c = "#888";
-					else if( p === 3 )
-						c = "#999";
-					
-					gfx.Rect( x * TILE_SIZE,y * TILE_SIZE,TILE_SIZE,TILE_SIZE,c );
+					if( p < 0 )
+					{
+						// Void tiles.
+						// if( p === -3 )
+						// 	c = "#F00";
+						// else if( p === -2 )
+						// 	c = "#E11";
+						// else if( p === -1 )
+						// 	c = "#D22";
+						
+						gfx.context.drawImage( wall,x * TILE_SIZE,y * TILE_SIZE,TILE_SIZE,TILE_SIZE );
+					}
+					else if( p > 0 )
+					{
+						// Ground tiles.
+						if( p === 1 )
+							c = "#777";
+						else if( p === 2 )
+							c = "#888";
+						else if( p === 3 )
+							c = "#999";
+						
+						// gfx.Rect( x * TILE_SIZE,y * TILE_SIZE,TILE_SIZE,TILE_SIZE,c );
+						gfx.context.drawImage( images[p - 1],x * TILE_SIZE,y * TILE_SIZE,TILE_SIZE,TILE_SIZE );
+					}
 				}
 			}
 			
