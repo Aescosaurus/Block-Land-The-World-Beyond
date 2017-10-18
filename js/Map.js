@@ -36,27 +36,15 @@ class Map
 				}
 			}
 			
-			positions[pl.Pos().y * WIDTH + pl.Pos().x] = 2;
-			
-			wall.src = "Images/Block2.png";
-			for( var i = 0; i < 3; ++i )
-			{
-				images[i] = new Image();
-				var rngNum = 1;
-				// if( i === 0 )
-				// {
-				// 	rngNum = 1;
-				// }
-				// else if( i === 1 )
-				// {
-				// 	rngNum = 3;
-				// }
-				// else if( i === 2 )
-				// {
-				// 	rngNum = 8;
-				// }
-				images[i].src = "Images/Block" + rngNum + ".png";
-			}
+			// positions[pl.Pos().y * WIDTH + pl.Pos().x] = 2;
+			// 
+			// wall.src = "Images/Block2.png";
+			// for( var i = 0; i < 3; ++i )
+			// {
+			// 	images[i] = new Image();
+			// 	var rngNum = 1;
+			// 	images[i].src = "Images/Block" + rngNum + ".png";
+			// }
 		}
 		
 		this.Update = function()

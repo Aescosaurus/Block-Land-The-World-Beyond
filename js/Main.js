@@ -22,7 +22,7 @@ var area = new Map();
 
 window.onload = function()
 {
-	const FPS = 10;
+	const FPS = 60;
 	
 	setInterval( function()
 	{

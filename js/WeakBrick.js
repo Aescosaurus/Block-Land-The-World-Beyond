@@ -1,20 +1,19 @@
 class WeakBrick
 {
-	constructor( x_in,y_in,c_in )
+	constructor( x,y,c_in )
 	{
-		var x = x_in;
-		var y = y_in;
+		var pos = { x: x,y: y };
 		var c = c_in;
 		
-		const TIME_TO_FALL = calc.Random( 5,20 );
+		const TIME_TO_FALL = calc.Random( 50,200 );
 		var fallTimer = 0;
 		
 		var falling = false;
 		
 		var offset = 0;
 		
-		var X_ORIG = x;
-		var Y_ORIG = y;
+		var X_ORIG = pos.x;
+		var Y_ORIG = pos.y;
 		
 		var willDraw = true;
 		
@@ -44,7 +43,10 @@ class WeakBrick
 				}
 				else
 				{
-					++offset;
+					if( !calc.Random( 0,5 ) )
+					{
+						++offset;
+					}
 				}
 			}
 			return true;
@@ -52,11 +54,11 @@ class WeakBrick
 		
 		this.Draw = function()
 		{
-			gfx.Rect( x * area.TileSize(),y * area.TileSize(),area.TileSize(),area.TileSize(),"#000" );
+			gfx.Rect( pos.x * area.TileSize(),pos.y * area.TileSize(),area.TileSize(),area.TileSize(),"#000" );
 			if( !falling )
 			{
 				// gfx.Rect( x * area.TileSize(),y * area.TileSize(),area.TileSize(),area.TileSize(),c );
-				gfx.context.drawImage( image,x * area.TileSize(),y * area.TileSize(),area.TileSize(),area.TileSize() );
+				gfx.context.drawImage( image,pos.x * area.TileSize(),pos.y * area.TileSize(),area.TileSize(),area.TileSize() );
 			}
 			else
 			{
@@ -64,7 +66,7 @@ class WeakBrick
 				{
 					// gfx.Rect( x * area.TileSize() + offset,y * area.TileSize() + offset,
 					// 		  area.TileSize() - offset * 2,area.TileSize() - offset * 2,c );
-					gfx.context.drawImage( image,x * area.TileSize() + offset,y * area.TileSize() + offset,
+					gfx.context.drawImage( image,pos.x * area.TileSize() + offset,pos.y * area.TileSize() + offset,
 					                       area.TileSize() - offset * 2,area.TileSize() - offset * 2 );
 				}
 			}
