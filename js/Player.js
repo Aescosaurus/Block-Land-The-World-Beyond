@@ -27,8 +27,8 @@ constructor()
 		pos.y += ( vel.y *= 0.85 );
 	}
 	// 
-	const width = 90;
-	const height = 90;
+	const width = 70;
+	const height = 70;
 	var pos =
 	{
 		x: 9999,
@@ -67,6 +67,12 @@ constructor()
 		for( var i in bullets )
 		{
 			bullets[i].Update();
+		}
+		
+		var doorHit = area.TouchingDoor( pos.x,pos.y,width,height );
+		if( doorHit !== 50 )
+		{
+			area.NextArea( doorHit );
 		}
 	}
 	

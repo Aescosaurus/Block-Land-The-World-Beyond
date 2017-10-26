@@ -18,6 +18,7 @@ var ms   = new Mouse();
 var ajax = new AJAX();
 
 var pl = new Player();
+var area = new Map();
 
 window.onload = function()
 {
@@ -41,6 +42,7 @@ function Init()
 	gfx.SetSmoothing( false ); // Set false for pixel perfect.
 	// \/ Initialize things! \/
 	pl.Init();
+	area.Init();
 	enemies[0] = new Enemy();
 }
 
@@ -68,6 +70,7 @@ function Draw()
 {
 	gfx.DrawRect( 0,0,gfx.SCREEN_WIDTH,gfx.SCREEN_HEIGHT,"#000" );
 	// \/ Draw things here. \/
+	area.Draw();
 	pl.Draw();
 	
 	for( var i in enemies )

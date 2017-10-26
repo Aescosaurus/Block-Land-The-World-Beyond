@@ -2,10 +2,12 @@ class Bullet
 {
 constructor( x,y,targetX,targetY )
 {
-	const SPD = 5;
+	const SPD = 7;
 	const SIZE = 5;
 	var pos = { x: x,y: y };
 	var rot = calc.FindAngle( x,y,targetX,targetY );
+	
+	var image = gfx.LoadImage( "Images/Projectiles/Bullet.png" );
 	// 
 	this.Update = function()
 	{
@@ -15,7 +17,8 @@ constructor( x,y,targetX,targetY )
 	
 	this.Draw = function()
 	{
-		gfx.DrawCircle( pos.x,pos.y,SIZE,"#F00" );
+		// gfx.DrawCircle( pos.x,pos.y,SIZE,"#F00" );
+		gfx.DrawImage( image,pos.x,pos.y );
 	}
 	
 	this.Pos = function()
