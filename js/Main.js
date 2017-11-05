@@ -43,7 +43,7 @@ function Init()
 	// \/ Initialize things! \/
 	pl.Init();
 	area.Init();
-	enemies[0] = new Enemy();
+	// enemies[0] = new Enemy();
 }
 
 function Update()
@@ -76,5 +76,15 @@ function Draw()
 	for( var i in enemies )
 	{
 		enemies[i].Draw();
+	}
+}
+
+function SpawnEnemies( amount )
+{
+	enemies = [];
+	for( var i = 0; i < amount; ++i )
+	{
+		enemies[i] = new Enemy();
+		enemies[i].Init();
 	}
 }

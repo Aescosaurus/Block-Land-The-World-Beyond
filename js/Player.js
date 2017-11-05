@@ -69,10 +69,26 @@ constructor()
 			bullets[i].Update();
 		}
 		
-		var doorHit = area.TouchingDoor( pos.x,pos.y,width,height );
+		var doorHit = area.TouchingDoor( pos.x - width / 2,pos.y - width / 2,width,height );
 		if( doorHit !== 50 )
 		{
 			area.NextArea( doorHit );
+			if( doorHit == 0 )
+			{
+				pos.y = gfx.SCREEN_HEIGHT - height * 1.5;
+			}
+			else if( doorHit == 1 )
+			{
+				pos.y = 0 + height * 1.5;
+			}
+			else if( doorHit == 2 )
+			{
+				pos.x = gfx.SCREEN_WIDTH - width * 1.5;
+			}
+			else if( doorHit == 3 )
+			{
+				pos.x = width * 1.5;
+			}
 		}
 	}
 	

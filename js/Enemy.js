@@ -19,6 +19,12 @@ constructor()
 	const angryFace = gfx.LoadImage( "Images/Enemies/Enemy.png" );
 	const hurtFace = gfx.LoadImage( "Images/Enemies/EnemyHurt.png" );
 	// 
+	this.Init = function()
+	{
+		pos.x = calc.Random( SIZE,gfx.SCREEN_WIDTH - SIZE );
+		pos.y = calc.Random( SIZE,gfx.SCREEN_HEIGHT - SIZE );
+	}
+	
 	this.Update = function()
 	{
 		++targetTimer;

@@ -2,6 +2,27 @@ class Map
 {
 constructor()
 {
+	var WillSkipDoor = function( i )
+	{
+		if( playerPos.x <= 0 && i == 2 )
+		{
+			return true;
+		}
+		else if( playerPos.x >= width - 1 && i == 3 )
+		{
+			return true;
+		}
+		else if( playerPos.y <= 0 && i == 0 )
+		{
+			return true;
+		}
+		else if( playerPos.y >= height - 1 && i == 1 )
+		{
+			return true;
+		}
+		return false;
+	}
+	// 
 	var doors =
 	[
 		new Door( 0 ),
@@ -43,19 +64,7 @@ constructor()
 		gfx.DrawImage( maps[this.LevelPos( playerPos.x,playerPos.y )],0,0 );
 		for( var i in doors )
 		{
-			if( playerPos.x <= 0 && i == 2 )
-			{
-				continue;
-			}
-			else if( playerPos.x >= width - 1 && i == 3 )
-			{
-				continue;
-			}
-			else if( playerPos.y <= 0 && i == 0 )
-			{
-				continue;
-			}
-			else if( playerPos.y >= height - 1 && i == 1 )
+			if( WillSkipDoor( i ) )
 			{
 				continue;
 			}
@@ -65,30 +74,34 @@ constructor()
 	
 	this.NextArea = function( dir )
 	{
-		// TODO: Implement something here.
-		// dir indicates which door was hit.
-		if( dir === 0 )
+		if( dir == 0 )
 		{
 			--playerPos.y;
 		}
-		else if( dir === 1 )
+		else if( dir == 1 )
 		{
 			++playerPos.y;
 		}
-		else if( dir === 2 )
+		else if( dir == 2 )
 		{
 			--playerPos.x;
 		}
-		else if( dir === 3 )
+		else if( dir == 3 )
 		{
 			++playerPos.x;
 		}
+		SpawnEnemies( calc.Random( 1,5 ) );
+		console.log( playerPos.x + " " + playerPos.y );
 	}
 	
 	this.TouchingDoor = function( x,y,width,height )
 	{
 		for( var i in doors )
 		{
+			if( WillSkipDoor( i ) )
+			{
+				continue;
+			}
 			const d = doors[i];
 			if( calc.HitTest( x,y,width,height,d.Pos().x,d.Pos().y,d.Pos().w,d.Pos().h ) )
 			{
