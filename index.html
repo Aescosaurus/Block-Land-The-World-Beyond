@@ -1,20 +1,35 @@
 <!dOcTyPe html>
 <html>
 <head>
-	<title>JSJ Framework 2.0.3</title>
+	<title>JSJ Framework 2.1.5</title>
+	<link rel="sylesheet" href="style.css">
+	<style>
+		body
+		{
+			margin:  0PX;
+			padding: 0PX;
+		}
+	</style>
 </head>
-<body bgcolor="#333">
-	<canvas id="gc" width="900" height="600"></canvas>
-	<script src="framework/Calc.js">     </script>
-	<script src="framework/Graphics.js"> </script>
-	<script src="framework/Keyboard.js"> </script>
-	<script src="framework/Mouse.js">    </script>
-	<!-- \/ User Scripts \/ -->
-	<script src="js/Player.js"> </script>
-	<script src="js/Block.js">  </script>
-	<script src="js/Map.js">    </script>
-	<script src="js/Enemy.js">    </script>
-	<!-- /\ User Scripts /\ -->
+<body>
+	<canvas id="gc" width="650" height="500"></canvas>
+	
+	<div id="FRAMEWORK">
+		<script src="framework/AJAX.js">     </script>
+		<script src="framework/Calc.js">     </script>
+		<script src="framework/Graphics.js"> </script>
+		<script src="framework/Keyboard.js"> </script>
+		<script src="framework/Mouse.js">    </script>
+	</div>
+	
+	<div id="USER_SCRIPTS">
+		<script src="js/Player.js"></script>
+		<script src="js/Bullet.js"></script>
+		<script src="js/Enemy.js"></script>
+		<script src="js/Map.js"></script>
+		<script src="js/Door.js"></script>
+	</div>
+	
 	<script src="js/Main.js"></script>
 </body>
 </html>

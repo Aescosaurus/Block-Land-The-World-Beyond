@@ -1,141 +1,90 @@
-// Strings
-const version = "v2.0.3";
+// Strings!
+const version = "v2.1.5";
 
-// Numbers
-var pizzaNum = 5;
+// Numbers!
+var pizzaNum = 3;
 
-// Booleans
-const isFunny = false;
+// Booleans!
+const funny = false;
 
-// Arrays
-var blocks = [];
+// Arrays!
+var enemies = [];
 
-// Objects
+// Objects!
 var calc = new Calc();
-var gfx = new Graphics();
-var kbd = new Keyboard();
-var ms = new Mouse();
+var gfx  = new Graphics();
+var kbd  = new Keyboard();
+var ms   = new Mouse();
+var ajax = new AJAX();
 
 var pl = new Player();
-var map = new Map();
-var badGuy = new Enemy();
+var area = new Map();
 
 window.onload = function()
 {
-	const fps = 30;
+	Init();
+	
+	const FPS = 60;
 	setInterval( function()
 	{
 		Update();
 		Draw();
-	},1000 / fps );
-	Init();
+	},1000 / FPS );
+	console.log( "JSJ Framework " + version + " has loaded successfully!" );
 };
 
 function Init()
 {
-	// Initialize things here.
+	gfx.Init();
 	kbd.Init();
 	ms.Init( gfx.canvas );
 	
-	gfx.SetSmoothing( true ); // Set false for pixel art.
-	
-	map.GenerateBlocks();
-	ReadBlocks();
-	
-	badGuy.SetRandPos();
-	
-	console.log( "JSJ Framework version " + version + " has loaded successfully!" );
+	gfx.SetSmoothing( false ); // Set false for pixel perfect.
+	// \/ Initialize things! \/
+	pl.Init();
+	area.Init();
+	// enemies[0] = new Enemy();
 }
 
 function Update()
 {
-	// Update things here.
+	// \/ Update things here. \/
 	pl.Update();
 	
-	for( var i in blocks )
+	for( var i in enemies )
 	{
-		var b = blocks[i]
-		
-		if( b.Pos().y > gfx.SCREEN_HEIGHT || b.Pos().x < 0 )
-			blocks.splice( i,1 );
-		
-		if( b.Pos().x > 0 && b.Pos().x < gfx.SCREEN_WIDTH )
+		const e = enemies[i];
+		e.Update();
+		if( !e.Alive() )
 		{
-			b.Update();
-			
-			while( pl.HitTest( "Bot",b.Pos().x,b.Pos().y,
-			                         b.Pos().w,b.Pos().h ) )
-			{
-				pl.MovePos( 0,-0.3 );
-				pl.Land();
-				pl.CanJump( true );
-				
-				b.Break();
-			}
-			
-			while( pl.HitTest( "Top",b.Pos().x,b.Pos().y,
-			                        b.Pos().w,b.Pos().h ) )
-			{
-				pl.Land();
-				pl.MovePos( 0,0.3 );
-			}
-			
-			while( pl.HitTest( "Left",b.Pos().x,b.Pos().y,
-			                          b.Pos().w,b.Pos().h ) )
-				pl.MovePos( 0.3,0 );
-			
-			while( pl.HitTest( "Right",b.Pos().x,b.Pos().y,
-			                           b.Pos().w,b.Pos().h ) )
-				pl.MovePos( -0.3,0 );
+			enemies.splice( i,1 );
+		}
+		else if( pl.BulletIsTouching( e.Pos().x,e.Pos().y,e.Pos().w,e.Pos().h ) )
+		{
+			e.Hurt( 1 );
 		}
 	}
-	
-	while( pl.Pos().x > gfx.SCREEN_WIDTH / 2 )
-	{
-		const move = 0.3;
-		pl.MovePos( -move,0 );
-		
-		for( var i in blocks )
-			blocks[i].MovePos( -move,0 );
-		
-		badGuy.MovePos( -move,0 );
-	}
-	
-	if( blocks[blocks.length - 1].Pos().x < gfx.SCREEN_WIDTH )
-	{
-		map.GenerateBlocks();
-		ReadBlocks( gfx.SCREEN_WIDTH + 100 );
-	}
-		
-	badGuy.Update();
 }
 
 function Draw()
 {
-	gfx.Rect( 0,0,gfx.SCREEN_WIDTH,gfx.SCREEN_HEIGHT,"#000" );
-	// Draw things here.
-	for( var i in blocks )
-		blocks[i].Draw();
-	
-	badGuy.Draw();
-	
+	gfx.DrawRect( 0,0,gfx.SCREEN_WIDTH,gfx.SCREEN_HEIGHT,"#000" );
+	// \/ Draw things here. \/
+	area.Draw();
 	pl.Draw();
+	
+	for( var i in enemies )
+	{
+		enemies[i].Draw();
+	}
 }
 
-var ReadBlocks = function( offsetX = 0 )
+function SpawnEnemies( amount )
 {
-	// blocks = [];
-	
-	var c = blocks.length; // 0;
-	
-	for( var i = 0; i < map.Dim().h; ++i )
+	enemies = [];
+	for( var i = 0; i < amount; ++i )
 	{
-		for( var j = 0; j < map.Dim().w; ++j )
-		{
-			if( map.PosXY( j,i ) > 0 )
-				blocks[c++] = new Block( j * 30 + offsetX,i * 30,map.PosXY( j,i ) );
-		}
+		enemies[i] = new Enemy();
+		enemies[i].Init();
 	}
-	
-	console.log( "Blocks were generated! Total: " + blocks.length );
 }

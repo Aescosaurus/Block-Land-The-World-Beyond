@@ -1,83 +1,79 @@
 class Enemy
 {
-	constructor()
+constructor()
+{
+	var pos = { x: 50,y: 50 };
+	const SIZE = 60;
+	const SPD = 2;
+	
+	const HP_MAX = 10;
+	var hp = HP_MAX;
+	
+	const HURT_TIME = 5;
+	var hurtTimer = HURT_TIME;
+	
+	const RETARGET_TIME = 100;
+	var targetTimer = RETARGET_TIME;
+	var rot = 0;
+	
+	const angryFace = gfx.LoadImage( "Images/Enemies/Enemy.png" );
+	const hurtFace = gfx.LoadImage( "Images/Enemies/EnemyHurt.png" );
+	// 
+	this.Init = function()
 	{
-		var x = 9999;
-		var y = 9999;
-		const WIDTH  = 30;
-		const HEIGHT = 30;
-		
-		var vx = 0;
-		var vy = 0;
-		const SPEED = 0.7;
-		const MAX_SPEED = 8;
-		
-		const MOVE_UPDATE_MAX = 20;
-		var moveUpdateTimer = 0;
-		
-		var targetX = pl.Pos().x;
-		var targetY = pl.Pos().y;
-		//
-		this.Update = function()
+		pos.x = calc.Random( SIZE,gfx.SCREEN_WIDTH - SIZE );
+		pos.y = calc.Random( SIZE,gfx.SCREEN_HEIGHT - SIZE );
+	}
+	
+	this.Update = function()
+	{
+		++targetTimer;
+		if( targetTimer > RETARGET_TIME )
 		{
-			x += vx;
-			y += vy;
-			
-			if( moveUpdateTimer > MOVE_UPDATE_MAX )
-			{
-				moveUpdateTimer = 0;
-				
-				targetX = pl.Pos().x;
-				targetY = pl.Pos().y;
-			}
-			else
-				++moveUpdateTimer;
-			
-			if( targetX > x )
-				vx += SPEED;
-			else
-				vx -= SPEED;
-			
-			if( targetY > y )
-				vy += SPEED;
-			else
-				vy -= SPEED;
-			
-			// Keep this guy at a reasonable speed.
-			if( vx > MAX_SPEED )
-				vx = MAX_SPEED;
-			
-			if( vx < -MAX_SPEED )
-				vx = -MAX_SPEED;
-			
-			if( vy > MAX_SPEED )
-				vy = MAX_SPEED;
-			
-			if( vy < -MAX_SPEED )
-				vy = -MAX_SPEED;
+			targetTimer = 0;
+			rot = calc.FindAngle( pos.x,pos.y,pl.Pos().x,pl.Pos().y );
 		}
+		pos.x += SPD * Math.cos( rot * ( Math.PI / 180 ) );
+		pos.y += SPD * Math.sin( rot * ( Math.PI / 180 ) );
 		
-		this.Draw = function()
+		if( hurtTimer <= HURT_TIME )
 		{
-			gfx.Rect( x,y,WIDTH,HEIGHT,"#F00" );
-		}
-		
-		this.MovePos = function( xMove,yMove )
-		{
-			x += xMove;
-			y += yMove;
-		}
-		
-		this.SetRandPos = function()
-		{
-			const xMin = -200;
-			const yMin = 0;
-			
-			const xMax = 0 - WIDTH;
-			const yMax = gfx.SCREEN_HEIGHT - HEIGHT;
-			
-			x = calc.Random( xMin,xMax );
-			y = calc.Random( yMin,yMax );
+			++hurtTimer;
 		}
 	}
+	
+	this.Draw = function()
+	{
+		if( hurtTimer < HURT_TIME )
+		{
+			const offset = 5;
+			gfx.DrawImage( hurtFace,pos.x - offset / 2,pos.y - offset / 2,SIZE + offset,SIZE + offset );
+		}
+		else
+		{
+			gfx.DrawImage( angryFace,pos.x,pos.y,SIZE,SIZE );
+		}
+	}
+	
+	this.Hurt = function( amount )
+	{
+		hp -= amount;
+		hurtTimer = 0;
+	}
+	
+	this.Alive = function()
+	{
+		return( hp > 0 );
+	}
+	
+	this.Pos = function()
+	{
+		return {
+			x: pos.x,
+			y: pos.y,
+			w: SIZE,
+			h: SIZE
+		}
+	}
+}
 }

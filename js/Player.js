@@ -1,127 +1,140 @@
+// User created file!
+
 class Player
 {
-	constructor()
+constructor()
+{
+	var ApplyMovement = function()
 	{
-		var x = 100;
-		var y = 100;
-		var vx = 0;
-		const WIDTH = 30;
-		const HEIGHT = 30;
-		
-		const SPEED = 2;
-		const MAX_SPEED = 7;
-		
-		var grav = 0;
-		const GRAV_ACC = 0.7;
-		var jumping = false;
-		var canJump = false;
-		const JUMP_POW = 15;
-		// 
-		this.Update = function()
+		if( kbd.CharDown( 'W' ) )
 		{
-			if( kbd.KeyDown( 32 ) && ( ( jumping ) || ( !jumping && canJump ) ) )
-			{
-				jumping = true;
-				canJump = false;
-			}
-			else if( jumping )
-				this.Land( -7 );
-			
-			if( kbd.KeyDown( 65 ) && vx > -MAX_SPEED )
-				vx -= SPEED;
-			
-			if( kbd.KeyDown( 68 ) && vx < MAX_SPEED )
-				vx += SPEED;
-			
-			x += vx;
-			vx *= 0.98;
-			
-			y += grav;
-			grav += GRAV_ACC;
-			
-			if( jumping )
-			{
-				y -= JUMP_POW;
-				
-				if( grav > JUMP_POW )
-					this.Land();
-			}
-			
-			while( y < 0 )
-				++y;
-			
-			// if( y > gfx.SCREEN_WIDTH )
-			// 	location.reload();
+			vel.y -= SPD;
+		}
+		if( kbd.CharDown( 'S' ) )
+		{
+			vel.y += SPD;
+		}
+		if( kbd.CharDown( 'A' ) )
+		{
+			vel.x -= SPD;
+		}
+		if( kbd.CharDown( 'D' ) )
+		{
+			vel.x += SPD;
 		}
 		
-		this.Draw = function()
+		pos.x += ( vel.x *= 0.85 );
+		pos.y += ( vel.y *= 0.85 );
+	}
+	// 
+	const width = 70;
+	const height = 70;
+	var pos =
+	{
+		x: 9999,
+		y: 9999
+	};
+	
+	const SPD = 0.8;
+	var vel = { x: 0,y: 0 };
+	
+	var bullets = [];
+	var curBullet = 0;
+	
+	const REFIRE_TIME = 12;
+	var shotTimer = REFIRE_TIME;
+	
+	const lImage = gfx.LoadImage( "Images/Player/playerL.png" );
+	const rImage = gfx.LoadImage( "Images/Player/playerR.png" );
+	// 
+	this.Init = function()
+	{
+		pos.x = gfx.SCREEN_WIDTH / 2;
+		pos.y = gfx.SCREEN_HEIGHT / 2;
+	}
+	
+	this.Update = function()
+	{
+		ApplyMovement();
+		
+		++shotTimer;
+		if( ms.IsDown() && shotTimer > REFIRE_TIME )
 		{
-			gfx.Rect( x,y,WIDTH,HEIGHT,"#FA0" );
+			shotTimer = 0;
+			bullets[curBullet++] = new Bullet( pos.x,pos.y,ms.Pos().x,ms.Pos().y );
 		}
 		
-		this.Land = function( newGrav = 0 )
+		for( var i in bullets )
 		{
-			jumping = false;
-			grav = newGrav;
+			bullets[i].Update();
 		}
 		
-		this.CanJump = function( cJump )
+		var doorHit = area.TouchingDoor( pos.x - width / 2,pos.y - width / 2,width,height );
+		if( doorHit !== 50 )
 		{
-			canJump = cJump;
-		}
-		
-		this.MovePos = function( xMove,yMove )
-		{
-			x += xMove;
-			y += yMove;
-		}
-		
-		this.Pos = function()
-		{
-			return {
-				x: x,
-				y: y,
-				w: WIDTH,
-				h: HEIGHT
-			}
-		}
-		
-		this.HitTest = function( hitDir,objX,objY,objWidth,objHeight )
-		{
-			const OFFSET = WIDTH / 4;
-			
-			if( hitDir === "Top" )
+			area.NextArea( doorHit );
+			if( doorHit == 0 )
 			{
-				if( x + OFFSET < objX + objWidth && x + WIDTH - OFFSET > objX &&
-					y < objY + objHeight && y + OFFSET > objY )
-					return true;
-				else
-					return false;
+				pos.y = gfx.SCREEN_HEIGHT - height * 1.5;
 			}
-			else if( hitDir === "Bot" )
+			else if( doorHit == 1 )
 			{
-				if( x + OFFSET < objX + objWidth && x + WIDTH - OFFSET > objX &&
-					y + HEIGHT - OFFSET < objY + objHeight && y + HEIGHT > objY )
-					return true;
-				else
-					return false;
+				pos.y = 0 + height * 1.5;
 			}
-			else if( hitDir === "Left" )
+			else if( doorHit == 2 )
 			{
-				if( x < objX + objWidth && x + OFFSET > objX &&
-					y + OFFSET < objY + objHeight && y + HEIGHT - OFFSET > objY )
-					return true;
-				else
-					return false;
+				pos.x = gfx.SCREEN_WIDTH - width * 1.5;
 			}
-			else if( hitDir === "Right" )
+			else if( doorHit == 3 )
 			{
-				if( x + WIDTH - OFFSET < objX + objWidth && x + WIDTH > objX &&
-					y + OFFSET < objY + objHeight && y + HEIGHT - OFFSET > objY )
-					return true;
-				else
-					return false;
+				pos.x = width * 1.5;
 			}
 		}
 	}
+	
+	this.Draw = function()
+	{
+		{
+			// gfx.DrawRect( pos.x,pos.y,width,height,"#FA0" );
+			var toDraw = rImage;
+			if( ms.Pos().x < pos.x )
+			{
+				toDraw = lImage;
+			}
+			
+			gfx.DrawImage( toDraw,pos.x - width / 2,pos.y - height / 2,width,height );
+		}
+		
+		for( var i in bullets )
+		{
+			bullets[i].Draw();
+		}
+	}
+	
+	this.BulletIsTouching = function( x,y,w,h )
+	{
+		for( var i in bullets )
+		{
+			const b = bullets[i];
+			if( calc.HitTest( b.Pos().x,b.Pos().y,b.Pos().w,b.Pos().h,x,y,w,h ) )
+			{
+				bullets.splice( i,1 );
+				--curBullet;
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	this.Pos = function()
+	{
+		return {
+			x: pos.x,
+			y: pos.y,
+			w: width,
+			h: height
+		}
+	}
+}
 }

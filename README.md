@@ -1,8 +1,10 @@
 # Block Land: The World Beyond
-A game about running and falling blocks!  Woo!
+A game about falling blocks!
 
 ## TODO:
-- Main gameplay( enemies(?), etc ).
-- Come up with more gameplay elements to add.
-- More graphics!
-- Make more levels and implement level transitions!!
+- Main gameplay(rooms, enemies, etc).
+- Player health.
+- Player invincibility frames after going into a room.
+
+## Play:
+http://htmlpreview.github.io/?https://github.com/RadAesc/Block-Land-The-World-Beyond/blob/Like-Rogue/index.html
