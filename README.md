@@ -7,4 +7,4 @@ A game about falling blocks!
 - Player invincibility frames after going into a room.
 
 ## Play:
-http://htmlpreview.github.io/?https://github.com/RadAesc/Block-Land-The-World-Beyond/blob/Like-Rogue/index.html
+https://github.com/RadAesc/Block-Land-The-World-Beyond/blob/master/index.html
