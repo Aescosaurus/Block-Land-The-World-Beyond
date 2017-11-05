@@ -1,5 +1,5 @@
 # Block Land: The World Beyond
-A game about falling blocks!
+A roguelike about navigating the world!
 
 ## TODO:
 - Main gameplay(rooms, enemies, etc).
@@ -7,4 +7,4 @@ A game about falling blocks!
 - Player invincibility frames after going into a room.
 
 ## Play:
-https://github.com/RadAesc/Block-Land-The-World-Beyond/blob/master/index.html
+http://htmlpreview.github.io/?https://github.com/RadAesc/Block-Land-The-World-Beyond/blob/master/index.html
