@@ -72,7 +72,7 @@ constructor()
 		var doorHit = area.TouchingDoor( pos.x - width / 2,pos.y - width / 2,width,height );
 		if( doorHit !== 50 )
 		{
-			area.NextArea( doorHit );
+			bullets = [];
 			if( doorHit == 0 )
 			{
 				pos.y = gfx.SCREEN_HEIGHT - height * 1.5;
@@ -89,6 +89,7 @@ constructor()
 			{
 				pos.x = width * 1.5;
 			}
+			area.NextArea( doorHit ); // This comes after pos setting to make enemy spawning work. :)
 		}
 	}
 	

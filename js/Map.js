@@ -48,7 +48,7 @@ constructor()
 			level[i] = calc.Random( 0,maps.length - 1 );
 			level[i] = 0;
 		}
-		level[calc.Random( 0,level.length - 1 )] = 10; // Winning place.
+		// level[calc.Random( 0,level.length - 1 )] = 10; // Winning place.
 		playerPos.x = calc.Random( 0,width - 1 );
 		playerPos.y = calc.Random( 0,height - 1 );
 		console.log( playerPos.x + " " + playerPos.y );

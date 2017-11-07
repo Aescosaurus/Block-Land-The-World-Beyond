@@ -55,6 +55,17 @@ function Update()
 	{
 		const e = enemies[i];
 		e.Update();
+		
+		for( var j in enemies )
+		{
+			const e2 = enemies[j];
+			if( calc.HitTest( e.Pos().x,e.Pos().y,e.Pos().w,e.Pos().h,
+			                  e2.Pos().x,e2.Pos().y,e2.Pos().w,e2.Pos().h ) )
+			{
+				e2.ReverseMomentum( e.Pos().x,e.Pos().y );
+			}
+		}
+		
 		if( !e.Alive() )
 		{
 			enemies.splice( i,1 );
